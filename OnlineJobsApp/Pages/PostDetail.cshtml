@@ -1,0 +1,144 @@
+@page
+@model OnlineJobsApp.Pages.PostDetailModel
+@{
+    ViewData["Title"] = "PostDetail";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">@Html.DisplayFor(model => model.Post.Title)</h3>
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center"><img src="~/image/company.jpg" class="img-responsive" width="350" height="420"></div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h4 class="box-title mt-5">Job Description</h4>
+                    <p>@Html.DisplayFor(model => model.Post.Content)</p>
+
+
+                    <h3 class="box-title mt-5">Job Required</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-check text-success"></i>@Html.DisplayFor(model => model.Post.Skill)</li>
+                    </ul>
+                    <a asp-page="./JobSeeker/CurriculumVitae" asp-route-id="@Model.PostId"><button class="btn btn-primary btn-rounded">Apply</button></a>     
+                    @if (Model.Post.IsReported == true) {
+                        <button class="btn btn-secondary btn-rounded">Reported</button>
+                    }else{
+                        <a asp-page="./Report" asp-route-id="@Model.PostId"><button class="btn btn-danger btn-rounded">Report</button></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="row  d-flex justify-content-center">
+        <div class="col-md-8">
+            <div id="data">
+
+            </div>
+             
+
+
+            <br>
+            <br>
+            @{
+                if (@ViewData["UserID"] != null)
+                {
+                    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+                    <section class="content-item" id="comments">
+                        <div class="card p-3">
+                            <h4>Comment here:</h4>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="user d-flex flex-row align-items-center">
+                                    <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2">
+                                    <span><small class="font-weight-bold text-primary" >@ViewData["UserFullName"]</small></span>
+                                </div>
+                                <small>@Html.DisplayFor(model => model.CommentByUser.User.CreatedAt)</small>
+                            </div>
+                            <br />
+                            <form method="post">
+                                
+                                    <input asp-for="CommentByUser.UserId" id="userInput" value="@ViewData["UserID"]" class="form-control" hidden />
+                                    <input asp-for="CommentByUser.PostId" id="postID" value="@ViewData["PostID"]" class="form-control" hidden />
+                                <div>
+                                    <textarea asp-for="CommentByUser.Content" class="form-control" id="messageInput" placeholder="Your message" required=""></textarea>
+                                </div>
+                                <br />
+                                <div>
+                                    <button type="submit" class="btn btn-normal pull-right" style="background-color:lightblue" id="sendButton">Send</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </section>
+                }
+                //else if (@ViewData["CompanyID"] != null)
+                //{
+                //    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+                //    <section class="content-item" id="comments">
+                //        <div class="card p-3">
+                //            <h4>Comment here:</h4>
+                //            <div class="d-flex justify-content-between align-items-center">
+                //                <div class="user d-flex flex-row align-items-center">
+                //                    <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2">
+                //                    <span><small class="font-weight-bold text-primary">@ViewData["CompanyFullName"]</small></span>
+                //                </div>
+                //                <small>@Html.DisplayFor(model => model.CommentByUser.User.CreatedAt)</small>
+                //            </div>
+                //            <br />
+                //            <form method="post">
+                //                <input asp-for="CommentByCompany.PostId" value="@ViewData["PostID"]" class="form-control" hidden />
+                //                <input asp-for="CommentByCompany.ComId" value="@ViewData["CompanyID"]" class="form-control" hidden />
+                //                <div>
+                //                    <textarea asp-for="CommentByCompany.Content" class="form-control" id="message" 
+                //                    placeholder="Your message" required=""></textarea>
+                //                </div>
+                //                <br />
+                //                <div>
+                //                    <button type="submit" class="btn btn-normal pull-right" style="background-color:lightblue">Send</button>
+                //                </div>
+                //            </form>
+                //        </div>
+                //    </section>
+                //}
+            }
+
+        </div>
+    </div>
+</div>
+
+@*<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">User</div>
+        <div class="col-4"><input type="text" id="userInput" /></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-4"><input type="text" id="messageInput" /></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <ul id="messageList"></ul>
+    </div>
+</div>*@
+<script src="~/js/site.js"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.js"></script>

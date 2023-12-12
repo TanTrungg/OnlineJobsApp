@@ -1,0 +1,125 @@
+﻿@page
+@using DataAccess.Commons
+@model OnlineJobsApp.Pages.Employer.PostListModel
+
+@{
+    ViewData["Title"] = "PostManagement";
+}
+
+<h1>Post Management</h1>
+
+<div class="d-flex flex-row">
+    <a asp-page="./PostCreate" class="btn btn-success">Create New Post</a> 
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-sm-4 mb-4">
+        <input type="text" id="myFilter" class="form-control" onkeyup="myFunction()" placeholder="Search title...">
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Major)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].UpdatedAt)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="myProducts">
+        @foreach (var item in Model.Post)
+        {
+            <tr class="table">
+                <td class="title">
+                   <a asp-page="./PostDetail" asp-route-id="@item.Id"> @Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Major.MajorName)
+                </td>
+                @if (item.Status == CommonEnums.POST_STATUS.AVAILABLE)
+                {
+                    <td>
+                       @Html.DisplayName("Available")
+                    </td>
+                }
+                else if (item.Status == CommonEnums.POST_STATUS.CLOSE)
+                {
+                    <td>
+                       @Html.DisplayName("Closed")
+                    </td>
+                }
+                <td>
+                   @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                   <a asp-page="./CandidateList" asp-route-id="@item.Id" class="btn btn-primary">Candidate List</a>  
+                </td>
+                <td>
+                   <a asp-page="./PostEdit" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>  
+                </td>
+                <td>
+                   <a asp-page="./PostDelete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>  
+                </td>
+                @if (item.IsReported == true)
+                {
+                    <td>
+                       @Html.DisplayName("REPORTED")
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Post.HasPreviousPage ? "disabled" : "Previous";
+    var nextDisabled = !Model.Post.HasNextPage ? "disabled" : "Next";
+}
+
+<a asp-page = "./PostList" 
+   asp-route-pageIndex = "@(Model.Post.PageIndex - 1)"
+   class = "btn btn-primary @prevDisabled">Previous
+</a>
+
+<a asp-page = "./PostList" 
+   asp-route-pageIndex = "@(Model.Post.PageIndex + 1)"
+   class = "btn btn-primary @nextDisabled">Next
+</a>
+
+<script>
+    function myFunction() {
+        var input, filter, cards, cardContainer, title, i;
+        input = document.getElementById("myFilter");
+        filter = input.value.toUpperCase();
+        cardContainer = document.getElementById("myProducts");
+        cards = cardContainer.getElementsByClassName("table");
+        for (i = 0; i < cards.length; i++) {
+            title = cards[i].querySelector(".title");
+            if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>

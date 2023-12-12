@@ -1,0 +1,84 @@
+﻿@page
+@model OnlineJobsApp.Pages.Admin.MajorPageModel
+@{
+}
+
+<h1>Manage Major</h1>
+
+<div class="d-flex flex-row">
+    <a asp-page="./CreateMajor" class="btn btn-success">Create New Major</a>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-sm-4 mb-4">
+        <input type="text" id="myFilter" class="form-control" onkeyup="myFunction()" placeholder="Search Major Name...">
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Major[0].MajorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Major[0].UpdatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="myProducts">
+        @foreach (var item in Model.Major)
+        {
+            <tr class="table">
+                <td class="title">
+                    @Html.DisplayFor(modelItem => item.MajorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    <a asp-page="./EditMajor" asp-route-id="@item.Id"><button class="btn btn-warning">Edit</button></a>    
+                    <a asp-page="./DetailsMajor" asp-route-id="@item.Id"><button class="btn btn-success">Details</button></a>    
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Major.HasPreviousPage ? "disabled" : "Previous";
+    var nextDisabled = !Model.Major.HasNextPage ? "disabled" : "Next";
+}
+
+<a asp-page = "./MajorPage" 
+   asp-route-pageIndex = "@(Model.Major.PageIndex - 1)"
+   class = "btn btn-primary @prevDisabled">Previous
+</a>
+
+<a asp-page = "./MajorPage" 
+   asp-route-pageIndex = "@(Model.Major.PageIndex + 1)"
+   class = "btn btn-primary @nextDisabled">Next
+</a>
+<div>
+    <a asp-page="./MainPageAdmin">Back to Menu</a>
+</div>
+<script>
+    function myFunction() {
+        var input, filter, cards, cardContainer, title, i;
+        input = document.getElementById("myFilter");
+        filter = input.value.toUpperCase();
+        cardContainer = document.getElementById("myProducts");
+        cards = cardContainer.getElementsByClassName("table");
+        for (i = 0; i < cards.length; i++) {
+            title = cards[i].querySelector(".title");
+            if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>

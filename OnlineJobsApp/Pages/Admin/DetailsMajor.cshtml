@@ -1,0 +1,40 @@
+﻿@page
+@model OnlineJobsApp.Pages.Admin.DetailsMajorModel
+@{
+}
+<h1>Major Details</h1>
+
+<div>
+    <h4>Major</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Major.MajorName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Major.MajorName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Major.IsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Major.IsDeleted)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Major.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Major.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Major.UpdatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Major.UpdatedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./EditMajor" asp-route-id="@Model.Major.Id">Edit</a> |
+    <a asp-page="./MajorPage">Back to List</a>
+</div>

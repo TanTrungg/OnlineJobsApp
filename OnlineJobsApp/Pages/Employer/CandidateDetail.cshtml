@@ -1,0 +1,62 @@
+﻿@page
+@model OnlineJobsApp.Pages.Employer.CandidateDetailModel
+
+@{
+    ViewData["Title"] = "ProcessCandidate";
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <strong class="text-uppercase text-black-50">Candiate details</strong>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-3">
+        <dl class="row">
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Candidate.User.FullName)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Candidate.User.FullName)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Candidate.User.Email)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Candidate.User.Email)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Candidate.User.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Candidate.User.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Candidate.User.Skill)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Candidate.User.Skill)
+        </dd>
+        <dt>
+             <a href="@Url.Content("~/" + Model.Candidate.Cv)" target="_blank">&nbsp;View CV</a>
+        </dt>
+    </dl>
+        <div class="align-content-center">
+            <a asp-page="./CandidateList" asp-route-id="@Model.Candidate.PostId">Back</a>
+        </div>
+    </div>
+</div>
+
+@if (Model.Candidate.Status == null) {
+<form style="display:inline;" method="post" asp-page-handler="Accept">
+        <input type="hidden" name="canId" value="@Model.Candidate.Id" />
+        <input type="submit" value="Accept" class="btn btn-primary" /> |
+</form>
+
+<form style="display:inline;" method="post" asp-page-handler="Deny">
+        <input type="hidden" name="canId" value="@Model.Candidate.Id" />
+        <input type="submit" value="Deny" class="btn btn-danger" /> 
+</form>
+}

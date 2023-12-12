@@ -1,0 +1,68 @@
+﻿@page
+@model OnlineJobsApp.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+<div class="card">
+    <div class="card-header ">
+        <div class="row">
+            <div class="col-md-6">
+                <strong class="text-uppercase text-black-50">Register account</strong>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-3">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="userRegister.FullName" class="control-label"></label>
+                <input asp-for="userRegister.FullName" class="form-control" />
+                <span asp-validation-for="userRegister.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRegister.Email" class="control-label"></label>
+                <input asp-for="userRegister.Email" class="form-control" />
+                <span asp-validation-for="userRegister.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRegister.Password" class="control-label"></label>
+                <input asp-for="userRegister.Password" class="form-control" />
+                <span asp-validation-for="userRegister.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Confirm password</label>
+                <input type="password" asp-for="@Model.confirmPass" class="form-control" />
+                <span asp-validation-for="confirmPass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRegister.PhoneNumber" class="control-label"></label>
+                <input asp-for="userRegister.PhoneNumber" class="form-control" />
+                <span asp-validation-for="userRegister.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRegister.Address" class="control-label"></label>
+                <input asp-for="userRegister.Address" class="form-control" />
+                <span asp-validation-for="userRegister.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRegister.Skill" class="control-label"></label>
+                <input asp-for="userRegister.Skill" class="form-control" />
+                <span asp-validation-for="userRegister.Skill" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-secondary" />
+            </div>
+        </form>
+        <div>
+            <a asp-page="Login">You have a account? Login now</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

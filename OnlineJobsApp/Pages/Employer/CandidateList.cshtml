@@ -1,0 +1,67 @@
+﻿@page
+@using DataAccess.Commons
+@model OnlineJobsApp.Pages.Employer.CandidateListModel
+
+@{
+    ViewData["Title"] = "CandidateList";
+}
+
+<h1>Candidate List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate[0].User.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate[0].User.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate[0].Status)
+            </th>
+            <th>
+                @Html.DisplayName("Apply Time")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Candidate)
+        {
+            <tr class="table">
+                <td class="title">
+                   <a asp-page="./CandidateDetail" asp-route-id="@item.Id"> @Html.DisplayFor(modelItem => item.User.FullName)</a>
+                </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                @if (item.Status == CommonEnums.CANDIDATE_STATUS.ACCEPT)
+                {
+                    <td>
+                       @Html.DisplayName("Accepted")
+                    </td>
+                }
+                else if (item.Status == CommonEnums.CANDIDATE_STATUS.DENY)
+                {
+                    <td>
+                       @Html.DisplayName("Denied")
+                    </td>
+                }
+                else
+                {
+                    <td>
+                       @Html.DisplayName("Pending")
+                    </td>
+                }
+                <td>
+                   @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br>
+<div>
+    <a asp-page="./PostList">Back To Post List</a>
+</div>

@@ -1,0 +1,57 @@
+﻿@page
+@model OnlineJobsApp.Pages.Employer.ProfileEditModel
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <strong class="text-uppercase text-black-50">Edit profile </strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-3">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<input type="hidden" asp-for="jobSeeker.Id" />
+            <input type="hidden" asp-for="jobSeeker.Password" />
+            <input type="hidden" asp-for="jobSeeker.CreatedAt" />
+            <input type="hidden" asp-for="jobSeeker.IsDeleted" />*@
+            <div class="form-group">
+                <label asp-for="Company.FullName" class="control-label"></label>
+                <input asp-for="Company.FullName" class="form-control" />
+                <span asp-validation-for="Company.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company.Email" class="control-label"></label>
+                <input asp-for="Company.Email" class="form-control"/>
+                <span asp-validation-for="Company.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company.PhoneNumber" class="control-label"></label>
+                <input asp-for="Company.PhoneNumber" class="form-control"/>
+                <span asp-validation-for="Company.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company.Address" class="control-label"></label>
+                <input asp-for="Company.Address" class="form-control" />
+                <span asp-validation-for="Company.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="comId" value="@Model.Company.Id" />
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<br>
+
+<div>
+    <a asp-page="./Profile">Back</a>
+</div>

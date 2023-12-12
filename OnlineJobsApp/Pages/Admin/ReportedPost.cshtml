@@ -1,0 +1,134 @@
+﻿@page
+@using DataAccess.Commons
+@model OnlineJobsApp.Pages.Admin.ReportedPostModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reported Posts</h1>
+
+<div class="row">
+    <div class="col-sm-4 mb-4">
+        <input type="text" id="myFilter" class="form-control" onkeyup="myFunction()" placeholder="Search Post Title...">
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Major)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].Skill)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].UpdatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="myProducts">
+        @foreach (var item in Model.Post)
+        {
+            <tr class="table">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Major.MajorName)
+                </td>
+                <td class="title">
+                    <a asp-page="../PostDetail" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                @if (item.Status == CommonEnums.POST_STATUS.AVAILABLE)
+                {
+                    <td>
+                        @Html.DisplayName("Available")
+                </td>
+                }
+                else if (item.Status == CommonEnums.POST_STATUS.CLOSE)
+                {
+                    <td>
+                        @Html.DisplayName("Closed")
+                    </td>
+                }
+                else if (item.Status == CommonEnums.POST_STATUS.REPORT)
+                {
+                    <td>
+                        @Html.DisplayName("Banned")
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Skill)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    @if (item.Status == CommonEnums.POST_STATUS.AVAILABLE)
+                    {
+                        <a asp-page="./BanPost" asp-route-id="@item.Id" class="btn btn-danger"> Ban</a>
+                        <a asp-page="./ActivePost" asp-route-id="@item.Id" class="btn btn-success"> Reject</a>
+                    }
+                    else
+                    {
+                        <a asp-page="./ActivePost" asp-route-id="@item.Id" class="btn btn-success"> Active</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Post.HasPreviousPage ? "disabled" : "Previous";
+    var nextDisabled = !Model.Post.HasNextPage ? "disabled" : "Next";
+}
+
+<a asp-page="./MajorPage"
+   asp-route-pageIndex="@(Model.Post.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+
+<a asp-page="./MajorPage"
+   asp-route-pageIndex="@(Model.Post.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+
+<div>
+    <a asp-page="./MainPageAdmin">Back to Menu</a>
+</div>
+<script>
+    function myFunction() {
+        var input, filter, cards, cardContainer, title, i;
+        input = document.getElementById("myFilter");
+        filter = input.value.toUpperCase();
+        cardContainer = document.getElementById("myProducts");
+        cards = cardContainer.getElementsByClassName("table");
+        for (i = 0; i < cards.length; i++) {
+            title = cards[i].querySelector(".title");
+            if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>

@@ -1,0 +1,126 @@
+﻿@page
+@model OnlineJobsApp.Pages.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Manage User</h1>
+
+<div class="row">
+    <div class="col-sm-4 mb-4">
+        <input type="text" id="myFilter" class="form-control" onkeyup="myFunction()" placeholder="Search User Name...">
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Skill)
+            </th>
+            <th>
+                @Html.DisplayName("Ban")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].UpdatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="myProducts">
+@foreach (var item in Model.User) {
+            <tr class="table">
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+                <td class="title">
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Skill)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @if(item.IsDeleted == true){
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-success"> Active</a>
+                }else{
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger"> Ban</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.User.HasPreviousPage ? "disabled" : "Previous";
+    var nextDisabled = !Model.User.HasNextPage ? "disabled" : "Next";
+}
+
+<a asp-page="./MajorPage"
+   asp-route-pageIndex="@(Model.User.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+
+<a asp-page="./MajorPage"
+   asp-route-pageIndex="@(Model.User.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+
+<div>
+    <a asp-page="./MainPageAdmin">Back to Menu</a>
+</div>
+<script>
+    function myFunction() {
+        var input, filter, cards, cardContainer, title, i;
+        input = document.getElementById("myFilter");
+        filter = input.value.toUpperCase();
+        cardContainer = document.getElementById("myProducts");
+        cards = cardContainer.getElementsByClassName("table");
+        for (i = 0; i < cards.length; i++) {
+            title = cards[i].querySelector(".title");
+            if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>
